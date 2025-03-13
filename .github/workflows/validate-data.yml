@@ -44,7 +44,7 @@ jobs:
                 // Skip, as we'll run into an error
                 continue;
               }
-              if (oldArr[index] !== value) {
+              if (oldArr[index] !== value && oldArr[index] !== undefined) {
                 console.error(`❌ Error: Existing entries in ${path} have been modified or reordered`);
                 console.error('New entries should only be added at the end of arrays');
                 console.error(`Found ${value} at index ${index} in new array, but ${oldArr[index]} at index ${index} in old array`);
