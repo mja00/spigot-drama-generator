@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - master
+  workflow_dispatch:
 
 jobs:
   deploy:
@@ -12,6 +13,9 @@ jobs:
     steps:
       - uses: actions/checkout@master
       - name: Publish
-        uses: cloudflare/wrangler-action@1.2.0
+        uses: cloudflare/wrangler-action@3.5.0
         with:
           apiToken: ${{ secrets.CF_API_TOKEN }}
+          command: deploy --env production
+          wranglerVersion: 4.0.0
+          environment: production

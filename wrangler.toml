@@ -1,6 +1,22 @@
 name = "spigot-drama-generator"
-type = "webpack"
-account_id = "c29688adad64beb8d6171dae3d0c394c"
+account_id = "de7947dd9d039a52e6db6c35e9898a60"
 workers_dev = true
-route = ""
-zone_id = ""
+main = "src/index.js"
+compatibility_date = "2025-03-10"
+
+[env.dev]
+name = "spigot-drama-generator-dev"
+
+[env.production]
+name = "spigot-drama-generator-prod"
+workers_dev = false
+minify = true
+routes = [
+    { pattern = "drama.mart.fyi", zone_id = "35b1b4ba6cbb0a195263cf4371c92b74", custom_domain = true }
+]
+
+[env.production.define]
+"process.env.NODE_ENV" = "'production'"
+
+[env.production.vars]
+NODE_ENV = "production"

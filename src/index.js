@@ -73,7 +73,7 @@ function renderDrama(message, share, sharePath, teaser) {
             <br />
             This website is made in jest - don't take it too seriously!
             <br />
-            Developed by mdcfe; PRs welcome on <a href="https://github.com/mdcfe/spigot-drama-generator">GitHub</a>.
+            Originally developed by mdcfe; Fork by mja00; PRs welcome on <a href="https://github.com/mja00/spigot-drama-generator">GitHub</a>.
             <br />
             Inspired by (and heavily borrows from) <a href="https://github.com/asiekierka/MinecraftDramaGenerator/">asiekierka's Minecraft Drama Generator</a>.
             <br />
@@ -131,6 +131,52 @@ function handleDrama(url) {
             }
         });
     } catch (error) {
+        console.error(error);
+        return handle404();
+    }
+}
+
+function handleJsonDrama(url) {
+    // If there is no other path than /api, we need to generate a drama key
+    if (url.pathname == "/api") {
+        let drama = {};
+
+        drama.sentence = randomIndex(sentences);
+
+        for (key in combinations) {
+            drama[key] = [randomIndex(combinations[key]), randomIndex(combinations[key]), randomIndex(combinations[key]), randomIndex(combinations[key])];
+        }
+
+        const dramaUrl = btoa(JSON.stringify(drama));
+        const host = url.host == "example.com" ? "localhost:8787" : url.host;
+        return handleJsonDrama(new URL(`${url.protocol}//${host}/api/${dramaUrl}`));
+    }
+    // Essentially the above, but return a JSON object instead of an HTML page
+    // Our json object should be: response -> the message, permalink -> the url
+    try {
+        let dramaIds = JSON.parse(atob(url.pathname.split("/api/")[1]));
+        let usedDramaIds = { sentence: dramaIds.sentence };
+        let message = sentences[dramaIds.sentence];
+
+        for (key in combinations) {
+            const placeholder = `[${key}]`;
+            if (!message.includes(placeholder)) continue;
+            usedDramaIds[key] = [];
+            for (id of dramaIds[key]) {
+                if (!message.includes(placeholder)) continue;
+                usedDramaIds[key].push(id);
+
+                const replacement = combinations[key][id];
+                message = message.replace(placeholder, replacement);
+            }
+        }
+
+        return new Response(JSON.stringify({
+            response: message,
+            permalink: url.href
+        }));
+    } catch (error) {
+        console.error(error);
         return handle404();
     }
 }
@@ -154,6 +200,8 @@ async function handleRequest(request) {
         return handleRoot(url);
     } else if (url.pathname == "/favicon.ico") {
         return handle404();
+    } else if (url.pathname.startsWith("/api")) {
+        return handleJsonDrama(url);
     } else {
         return handleDrama(url);
     }
