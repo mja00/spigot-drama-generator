@@ -1,0 +1,64 @@
+name: Validate data.json changes
+
+on:
+  pull_request:
+    paths:
+      - 'src/data.json'
+
+jobs:
+  validate-data:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 2  # We need the previous commit to compare
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Validate data.json changes
+        run: |
+          # Get the old and new versions of data.json
+          git show HEAD^:src/data.json > old_data.json
+          cp src/data.json new_data.json
+
+          # Create and run validation script
+          cat > validate.js << 'EOF'
+          const fs = require('fs');
+
+          const oldData = JSON.parse(fs.readFileSync('old_data.json', 'utf8'));
+          const newData = JSON.parse(fs.readFileSync('new_data.json', 'utf8'));
+
+          // Function to check if arrays maintain existing order
+          function validateArrays(oldArr, newArr, path) {
+            if (!Array.isArray(oldArr) || !Array.isArray(newArr)) {
+              return true;
+            }
+
+            // Check if all elements from old array exist in same order in new array
+            for (const [index, value] of newArr.entries()) {
+              // Ensure it's the same in the old array
+              if (index > oldArr.length) {
+                // Skip, as we'll run into an error
+                continue;
+              }
+              if (oldArr[index] !== value) {
+                console.error(`❌ Error: Existing entries in ${path} have been modified or reordered`);
+                console.error('New entries should only be added at the end of arrays');
+                console.error(`Found ${value} at index ${index} in new array, but ${oldArr[index]} at index ${index} in old array`);
+                process.exit(1);
+              }
+            }
+          }
+
+          // Validate all arrays in combinations
+          for (const [key, value] of Object.entries(oldData.combinations)) {
+            validateArrays(value, newData.combinations[key], `combinations.${key}`);
+          }
+
+          console.log('✅ All changes to data.json are valid - new entries are only added at the end of arrays');
+          EOF
+
+          node validate.js 
