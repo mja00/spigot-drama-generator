@@ -212,7 +212,8 @@
             "LazyDFU",
             "NamelessMC",
             "Folia",
-            "Configurate"
+            "Configurate",
+            "Patch Roulette"
         ],
         "servers": [
             "Empire Minecraft",
@@ -420,7 +421,8 @@
             "a sources jar",
             "a Javadoc jar",
             "a remapped jar",
-            "yaml comment support"
+            "yaml comment support",
+            "a patch"
         ],
         "worse": [
             "worse",
