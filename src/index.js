@@ -174,9 +174,12 @@ function handleJsonDrama(url) {
             }
         }
 
+        const optimizedUrl = new URL(url.href);
+        optimizedUrl.pathname = "/api/" + btoa(JSON.stringify(usedDramaIds));
+
         return new Response(JSON.stringify({
             response: message,
-            permalink: url.href
+            permalink: optimizedUrl.href
         }));
     } catch (error) {
         console.error(error);
