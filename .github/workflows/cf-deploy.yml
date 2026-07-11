@@ -8,11 +8,15 @@ on:
   workflow_dispatch:
 
 jobs:
+  permissions:
+    contents: read
   check:
     runs-on: ubuntu-latest
     name: Check
     steps:
       - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
       - uses: actions/setup-node@v6
         with:
           node-version: "22"
@@ -30,6 +34,8 @@ jobs:
     name: Deploy
     steps:
       - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
       - name: Publish
         uses: cloudflare/wrangler-action@v4.0.0
         with:
