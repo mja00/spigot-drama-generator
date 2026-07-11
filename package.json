@@ -11,7 +11,7 @@
   "author": "md678685 <1917406+md678685@users.noreply.github.com>",
   "license": "MIT",
   "devDependencies": {
-    "prettier": "^1.18.2",
-    "wrangler": "^4.31.0"
+    "prettier": "^3.9.5",
+    "wrangler": "^4.110.0"
   }
 }
