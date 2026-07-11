@@ -206,7 +206,7 @@ function handleJsonDrama(url) {
 
 function handle404() {
     return new Response("no u", {
-        status: "404",
+        status: 404,
     });
 }
 
