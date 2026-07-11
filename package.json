@@ -1,17 +1,17 @@
 {
-  "name": "spigot-drama-generator",
-  "version": "1.0.0",
-  "description": "Generates drama around the Spigot community",
-  "main": "src/index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "format": "prettier --write '**/*.{js,css,json,md}'",
-    "dev": "wrangler dev"
-  },
-  "author": "md678685 <1917406+md678685@users.noreply.github.com>",
-  "license": "MIT",
-  "devDependencies": {
-    "prettier": "^3.9.5",
-    "wrangler": "^4.110.0"
-  }
+    "name": "spigot-drama-generator",
+    "version": "1.0.0",
+    "description": "Generates drama around the Spigot community",
+    "main": "src/index.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "format": "prettier --write '**/*.{js,css,json,md}'",
+        "dev": "wrangler dev"
+    },
+    "author": "md678685 <1917406+md678685@users.noreply.github.com>",
+    "license": "MIT",
+    "devDependencies": {
+        "prettier": "^3.9.5",
+        "wrangler": "^4.110.0"
+    }
 }

@@ -457,12 +457,7 @@
             "rant about",
             "expose"
         ],
-        "forks": [
-            "forks",
-            "rebrands",
-            "hard forks",
-            "upstreams"
-        ],
+        "forks": ["forks", "rebrands", "hard forks", "upstreams"],
         "price": [
             "$100",
             "$200",
@@ -534,11 +529,7 @@
             "contributing guide",
             "contributor license agreement"
         ],
-        "events": [
-            "Hacktoberfest",
-            "Google Summer of Code",
-            "State of Sponge"
-        ],
+        "events": ["Hacktoberfest", "Google Summer of Code", "State of Sponge"],
         "platforms": [
             "Bukkit",
             "Bungeecord",

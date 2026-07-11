@@ -87,7 +87,7 @@ function renderDrama(message, share, sharePath, teaser) {
         </h6>
     </body>
 </html>
-    `
+    `;
 }
 
 function handleRoot(url) {
@@ -96,7 +96,12 @@ function handleRoot(url) {
     drama.sentence = randomIndex(sentences);
 
     for (key in combinations) {
-        drama[key] = [randomIndex(combinations[key]), randomIndex(combinations[key]), randomIndex(combinations[key]), randomIndex(combinations[key])];
+        drama[key] = [
+            randomIndex(combinations[key]),
+            randomIndex(combinations[key]),
+            randomIndex(combinations[key]),
+            randomIndex(combinations[key]),
+        ];
     }
 
     const dramaUrl = btoa(JSON.stringify(drama));
@@ -128,11 +133,14 @@ function handleDrama(url) {
 
         let teaser = randomEntry(social);
 
-        return new Response(renderDrama(message, url.href, url.pathname, teaser), {
-            headers: {
-                "content-type": "text/html;charset=utf8"
-            }
-        });
+        return new Response(
+            renderDrama(message, url.href, url.pathname, teaser),
+            {
+                headers: {
+                    "content-type": "text/html;charset=utf8",
+                },
+            },
+        );
     } catch (error) {
         console.error(error);
         return handle404();
@@ -147,12 +155,19 @@ function handleJsonDrama(url) {
         drama.sentence = randomIndex(sentences);
 
         for (key in combinations) {
-            drama[key] = [randomIndex(combinations[key]), randomIndex(combinations[key]), randomIndex(combinations[key]), randomIndex(combinations[key])];
+            drama[key] = [
+                randomIndex(combinations[key]),
+                randomIndex(combinations[key]),
+                randomIndex(combinations[key]),
+                randomIndex(combinations[key]),
+            ];
         }
 
         const dramaUrl = btoa(JSON.stringify(drama));
         const host = url.host == "example.com" ? "localhost:8787" : url.host;
-        return handleJsonDrama(new URL(`${url.protocol}//${host}/api/${dramaUrl}`));
+        return handleJsonDrama(
+            new URL(`${url.protocol}//${host}/api/${dramaUrl}`),
+        );
     }
     // Essentially the above, but return a JSON object instead of an HTML page
     // Our json object should be: response -> the message, permalink -> the url
@@ -177,10 +192,12 @@ function handleJsonDrama(url) {
         const optimizedUrl = new URL(url.href);
         optimizedUrl.pathname = "/api/" + btoa(JSON.stringify(usedDramaIds));
 
-        return new Response(JSON.stringify({
-            response: message,
-            permalink: optimizedUrl.href
-        }));
+        return new Response(
+            JSON.stringify({
+                response: message,
+                permalink: optimizedUrl.href,
+            }),
+        );
     } catch (error) {
         console.error(error);
         return handle404();
@@ -189,13 +206,13 @@ function handleJsonDrama(url) {
 
 function handle404() {
     return new Response("no u", {
-        status: "404"
+        status: "404",
     });
 }
 
-addEventListener('fetch', event => {
-    event.respondWith(handleRequest(event.request))
-})
+addEventListener("fetch", (event) => {
+    event.respondWith(handleRequest(event.request));
+});
 /**
  * Respond with hello worker text
  * @param {Request} request
