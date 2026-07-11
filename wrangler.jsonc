@@ -1,0 +1,32 @@
+{
+    "$schema": "node_modules/wrangler/config-schema.json",
+    "name": "spigot-drama-generator",
+    "account_id": "de7947dd9d039a52e6db6c35e9898a60",
+    "workers_dev": true,
+    "main": "src/index.ts",
+    "compatibility_date": "2025-03-10",
+    "env": {
+        "dev": {
+            "name": "spigot-drama-generator-dev",
+        },
+        "production": {
+            "name": "spigot-drama-generator-prod",
+            "workers_dev": false,
+            "minify": true,
+            "routes": [
+                {
+                    "pattern": "drama.mart.fyi",
+                    "zone_id": "35b1b4ba6cbb0a195263cf4371c92b74",
+                    "custom_domain": true,
+                },
+            ],
+            // define is a source-text substitution, so the value keeps its inner quotes
+            "define": {
+                "process.env.NODE_ENV": "'production'",
+            },
+            "vars": {
+                "NODE_ENV": "production",
+            },
+        },
+    },
+}
