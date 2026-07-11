@@ -1,5 +1,8 @@
 name: "Deploy to Cloudflare Workers"
 
+permissions:
+    contents: read
+
 on:
   push:
     branches:
@@ -8,8 +11,6 @@ on:
   workflow_dispatch:
 
 jobs:
-  permissions:
-    contents: read
   check:
     runs-on: ubuntu-latest
     name: Check
