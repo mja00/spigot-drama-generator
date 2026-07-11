@@ -2,16 +2,27 @@
     "name": "spigot-drama-generator",
     "version": "1.0.0",
     "description": "Generates drama around the Spigot community",
-    "main": "src/index.js",
     "scripts": {
-        "test": "echo \"Error: no test specified\" && exit 1",
-        "format": "prettier --write '**/*.{js,css,json,md}'",
-        "dev": "wrangler dev"
+        "dev": "wrangler dev",
+        "deploy": "wrangler deploy --env production",
+        "format": "prettier --write '**/*.{ts,js,mjs,css,json,md}'",
+        "lint": "eslint .",
+        "lint:fix": "eslint . --fix",
+        "types": "wrangler types",
+        "typecheck": "npm run types && tsc",
+        "test": "npm run types && vitest run"
     },
     "author": "md678685 <1917406+md678685@users.noreply.github.com>",
     "license": "MIT",
     "devDependencies": {
+        "@cloudflare/vitest-pool-workers": "^0.18.4",
+        "@eslint/js": "^10.0.1",
+        "eslint": "^10.7.0",
+        "eslint-config-prettier": "^10.1.8",
         "prettier": "^3.9.5",
+        "typescript": "~6.0.3",
+        "typescript-eslint": "^8.63.0",
+        "vitest": "~4.1.10",
         "wrangler": "^4.110.0"
     }
 }
