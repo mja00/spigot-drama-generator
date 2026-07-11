@@ -4,10 +4,28 @@ on:
   push:
     branches:
       - master
+  pull_request:
   workflow_dispatch:
 
 jobs:
+  check:
+    runs-on: ubuntu-latest
+    name: Check
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v6
+        with:
+          node-version: "22"
+          cache: npm
+      - run: npm ci
+      - run: npm run typecheck
+      - run: npm run lint
+      - run: npm test
+
   deploy:
+    # checks run on PRs too, but deploys only happen from master pushes
+    if: github.event_name != 'pull_request'
+    needs: check
     runs-on: ubuntu-latest
     name: Deploy
     steps:
